@@ -114,7 +114,7 @@
             sessionStorage.setItem("liveName", liveName);
             sessionStorage.setItem("liveDescription", liveDescription);
 
-            window.location.href = "/Dashboard/LiveContent/liveLink";
+            window.location.href = "/Dashboard/qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmasdfghjklqwertyuiopzxcvbnmasdfghjklqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmasdf/liveLink";
         });
 
         async function deleteLive(liveId) {
@@ -129,7 +129,7 @@
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     try {
-                        const response = await fetch(`/Dashboard/LiveContent/deletePlaylist/${liveId}`, {
+                        const response = await fetch(`/Dashboard/qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmasdfghjklqwertyuiopzxcvbnmasdfghjklqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmasdf/deletePlaylist/${liveId}`, {
                             method: "DELETE",
                         });
 
