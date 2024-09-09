@@ -559,7 +559,7 @@ await logAction(req, 'DeleteScreen', `Screen deleted: ${screenid}`, user);
 const editScreen = async (req, res) => {
     const {
         screenid,
-       
+        pairingCode,
         screenName,
         tags,
         location,
@@ -572,7 +572,7 @@ const editScreen = async (req, res) => {
     try {
         await screen.editScreen(
             screenid,
-           
+            pairingCode,
             screenName,
             tags,
             location,
