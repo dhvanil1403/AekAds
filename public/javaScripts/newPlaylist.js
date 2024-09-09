@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
           return;
       }
 
-      window.location.href = "/Dashboard/Playlist/newPlaylist/selectScreens";
+      window.location.href = "/Dashboard/asdfghjklqwertyuiopzxcvbnmasdfghjklqwertyuiopzxcvbnmasdfghjklqwertyuiopzxcvbnmasdfghjklqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmasdfghjklqwertyuiopzxcvbn/newPlaylist/selectScreens";
   }
   window.selectScreen=selectScreen;
   
