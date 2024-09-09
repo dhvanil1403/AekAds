@@ -1,0 +1,31 @@
+const express = require("express");
+const router = express.Router();
+const {dashboardAuth}= require('../controllers/userLogin.controller')
+const teamRouter=require('./TeamsRoutes');
+const screenRouter=require('./screensRoutes');
+const libraryRouter=require('./libraryRoutes');
+const playlistRouter=require('./playlistRoutes');
+const liveContentRouter=require('./liveContentRoutes');
+const dashboardController=require('../controllers/dashboard.controller');
+
+
+const isAuthenticated = (req, res, next) => {
+  if (req.session.user) {
+      next(); // User is authenticated, proceed to dashboard
+  } else {
+      res.redirect('/login'); // Redirect to login if user is not authenticated
+  }
+};
+//  router.use(dashboardAuth)
+router.get("/", dashboardController.showAllDashboardData);
+
+router.use("/vbnzqmcdylkpjfghwoaerxstuiqvcnbksrzjmdwqlpoyzthxfguvwekcqjstlirmbhdyanpxfogwsqzvrjleuctymkbofnwpaxhdzcrvlmjsqytkgcewphrojnuzbdmvlfyctakzsxornpewhqlvdgjmuibzrktxjdcvfsonmhlwprqzytgivaxbceusokmrdjfyhapwzqvnmxlgtojyeucbkrsfihadwpomnlxutzyjgwrhsvfkpqebxdmc",screenRouter);
+router.use("/qwertyuiopasdfghjklzxcvbnmasdfghjklqwertyuiopzxcvbnmasdfghjklqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmasdfghjklqwertyuiopzxcvbnmasdfghjklqwertyuiopasdfghjklzxcvbnmasdfghjklqwertyuiopasdfghjkl", teamRouter);
+router.use("/zxcvbnmasdfghjklqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmasdfghjklqwertyuiopzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmasdfghjklqwertyuiopzxcvbnmasdfghjklqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjkl",libraryRouter);
+router.use("/asdfghjklqwertyuiopzxcvbnmasdfghjklqwertyuiopzxcvbnmasdfghjklqwertyuiopzxcvbnmasdfghjklqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmasdfghjklqwertyuiopzxcvbn", playlistRouter );
+router.use("/qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmasdfghjklqwertyuiopzxcvbnmasdfghjklqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmasdf",liveContentRouter );
+
+
+
+module.exports = {router,isAuthenticated};
+
