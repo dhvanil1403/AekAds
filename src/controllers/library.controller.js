@@ -241,7 +241,7 @@ const deleteMedia = async (req, res) => {
     // await logAction('DELETE', `Media deleted with ID: ${id}`, req.ip);
     const user = req.session.user; // Retrieve user from session
     await logAction(req,'DELETE ', `Media deleted with ID: ${id}`, user);
-    res.redirect('/Dashboard/Library');
+    res.redirect('/Dashboard/zxcvbnmasdfghjklqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmasdfghjklqwertyuiopzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmasdfghjklqwertyuiopzxcvbnmasdfghjklqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjkl');
   } catch (err) {
     console.error(err);
     await logAction('DELETE', `Error deleting media with ID: ${id}`, req.ip);
