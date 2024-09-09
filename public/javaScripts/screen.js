@@ -216,7 +216,7 @@
       var screenid = row.querySelector('td[id^="screen.screenid"]').textContent.toUpperCase();
       var screenName = row.querySelector('td[id^="screen.screenname"]').textContent.toUpperCase();
       var playlistName = row.querySelector('td[id^="screen.playlistname"] p').textContent.toUpperCase();
-      var status = row.querySelector('td[id^="screen.deleted"] p').textContent.toUpperCase();
+      // var status = row.querySelector('td[id^="screen.deleted"] p').textContent.toUpperCase();
       var tags = row.querySelector('td[id^="screen.tags"]').textContent.toUpperCase();
       var location = row.querySelector('td[id^="screen.location"]').textContent.toUpperCase();
       var city = row.querySelector('td[id^="screen.city"]').textContent.toUpperCase();
