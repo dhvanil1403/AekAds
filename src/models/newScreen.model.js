@@ -97,7 +97,7 @@ const restoreScreenInDB = async (screenid) => {
 
 const editScreen = async (
   screenid,
- 
+  pairingCode,
   screenName,
   tags,
   location,
@@ -108,8 +108,8 @@ const editScreen = async (
 ) => {
   try {
     const result = await db.query(
-      "UPDATE screens SET screenname = $2, tags = $3, location = $4, city = $5, state = $6, country = $7, pincode = $8 WHERE screenid = $1",
-      [screenid, screenName, tags, location, city, state, country, pincode]
+      "UPDATE screens SET screenname = $2, tags = $3, location = $4, city = $5, state = $6, country = $7, pincode = $8,pairingcode = $9 WHERE screenid = $1",
+      [screenid, screenName, tags, location, city, state, country, pincode,pairingCode]
     );
     return result.rows;
   } catch (err) {
