@@ -1006,6 +1006,10 @@ padding: 0;
                                                 onclick="openExtendProposal('<%= proposal.start_date %>', '<%= endDate %>', '<%= proposal.id %>')">
                                                 <button class="btn btn-primary">Extend Proposal</button>
                                             </a>
+                                            <a href="#" style="text-decoration: none;"
+                                                onclick="showPreview('<%= proposal.url1 %>', '<%= proposal.url2 %>', '<%= proposal.url3 %>', '<%= proposal.url4 %>', '<%= proposal.pdf_file_url %>', '<%= proposal.pdf_original_file_name %>')">
+                                                <button class="btn btn-primary">Preview</button>
+                                            </a>
                                         </td>
                                     </tr>
                                     <% }) %>
