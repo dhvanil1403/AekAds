@@ -197,6 +197,11 @@ app.get("/", (req, res) => {
 app.get("/alldata", api.getAllScreensAllData);
 app.get("/livedata", api.getAllScreensAllData);
 
+
+app.get("/alldata/:id", api.getScreenDataById); // Route to fetch a screen by ID
+
+
+
 // Middleware to check if user is 'admin' or 'editor'
 
 app.get("/register", (req, res) => {
