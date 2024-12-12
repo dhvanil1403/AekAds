@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Select Screens to Publish Playlist</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dqfnwh89v/image/upload/v1724408615/qxvvfcf7ftgklhl2k03v.png">
+  <link rel="stylesheet" href="/css/groupScreen.css" />
+  <script>
+    window.addEventListener('beforeunload', (event) => {
+      const isNavigatingWithinApp =
+        document.activeElement &&
+        (document.activeElement.tagName === 'A' || document.activeElement.tagName === 'BUTTON');
+  
+      if (!isNavigatingWithinApp) {
+        navigator.sendBeacon('/api/log-logout', JSON.stringify({ reason: 'Tab/Window Closed' }));
+      }
+    });
+  </script>
+  <style>
+    
+    .goback {
+      padding: 12px 20px;
+      border: 1px solid #0D6EFD;
+      font-weight: 700;
+      color: #0D6EFD;
+      background: transparent;
+    }
+    .goback:hover {
+      background: #0D6EFD;
+      color: white;
+    }
+    .header {
+      display: flex;
+      justify-content: flex-end;
+    }
+    .footer-div {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .no-slot {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+  <div class="group">
+    <p id="proposalID" style="display: none;"><%= proposalId %></p>
+    <div class="heading">
+      <h3>Select Screens</h3>
+    </div>
+    <div class="selection-screens">
+      <div class="select-screen">
+        <input type="search" id="searchInput" placeholder="Search">
+        <div class="table-class">
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>Screen ID</th>
+                <th>Screen Name</th>
+                <th>Reach</th>
+                <th>Address</th>
+                <th>Next Available Slot</th>
+              </tr>
+            </thead>
+            <tbody id="screensTableBody">
+              <% screens.forEach(screen => { %>
+                <tr class="screen-row">
+                  <td>
+                    <input type="checkbox"
+                      name="checkbox"
+                      value="<%= screen.screenid %>"
+                      data-screenname="<%= screen.screenname %>"
+                      data-address="<%= screen.location %>"
+                      data-playlistname="<%= screen.reach %>"
+                      <%= propertiesIds.includes(String(screen.screenid)) ? 'checked' : '' %>
+                      <%= screen.nextAvailableSlot ? '' : 'disabled' %> />
+                  </td>
+                  <td><%= screen.screenid %></td>
+                  <td class="screen-screenname"><%= screen.screenname %></td>
+                  <td id="reach_<%= screen.screenid %>"><%= screen.reach %></td>
+                  <td><%= screen.location %></td>
+                  <td class="<%= screen.nextAvailableSlot ? '' : 'no-slot' %>">
+                    <%= screen.nextAvailableSlot ? screen.nextAvailableSlot : 'No slot available' %>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+        <div id="noResultsMessage" style="display: none; text-align: center;">No screens found.</div>
+      </div>
+    </div>
+
+    <div class="footer-div" style="text-align: center;">
+      <button type="button" onclick="goBack()" class="btn btn-warning">Go Back</button>
+      <button type="submit" class="btn btn-primary">Next</button>
+    </div>
+  </div>
+
+  <script>
+    // Sort rows so screens with available slots appear first
+    document.addEventListener("DOMContentLoaded", function () {
+      const tableBody = document.getElementById("screensTableBody");
+      const rows = Array.from(tableBody.querySelectorAll(".screen-row"));
+
+      const rowsWithSlots = rows.filter(row => !row.querySelector("td:last-child").classList.contains("no-slot"));
+      const rowsWithoutSlots = rows.filter(row => row.querySelector("td:last-child").classList.contains("no-slot"));
+
+      tableBody.innerHTML = "";
+      rowsWithSlots.forEach(row => tableBody.appendChild(row));
+      rowsWithoutSlots.forEach(row => tableBody.appendChild(row));
+    });
+
+
+// Handle 'Next' button click to gather selected screen data and send it to the server
+document.querySelector('.btn-primary').addEventListener('click', function () {
+  const checkboxes = document.querySelectorAll('#screensTableBody input[type="checkbox"]:checked');
+
+  // Gather selected screen IDs, next available slots, reach values, and addresses
+  const selectedScreens = Array.from(checkboxes).map(checkbox => {
+    const screenId = checkbox.value;
+    const row = checkbox.closest("tr");
+    const nextAvailableSlot = row.querySelector("td:last-child").textContent.trim();
+    const reach = parseInt(document.getElementById(`reach_${screenId}`).textContent.trim(), 10); // Use id to get reach
+    const address = row.querySelector("td:nth-child(5)").textContent.trim(); // Get address from 5th column
+
+    return { screenId, nextAvailableSlot, reach, address };
+  });
+
+  const screenIds = selectedScreens.map(screen => screen.screenId); // Array of screen IDs
+  const nextAvailableSlots = selectedScreens.map(screen => screen.nextAvailableSlot); // Array of next available slots
+  const totalReach = selectedScreens.reduce((sum, screen) => sum + screen.reach, 0); // Calculate total reach
+
+  // Create a Set of unique addresses and count them
+  const uniqueAddresses = new Set(selectedScreens.map(screen => screen.address));
+  const uniqueLocationsCount = uniqueAddresses.size; // Count of unique locations
+
+  const proposalID = document.getElementById('proposalID').textContent.trim();
+
+  console.log("Selected Screens:", selectedScreens);
+  console.log("Total Reach:", totalReach);
+  console.log("Unique Locations Count:", uniqueLocationsCount);
+
+  // Send data to the server using a POST request
+  fetch('/proposals/saveScreens', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      proposalID: proposalID,
+      screenIds: screenIds,
+      nextAvailableSlots: nextAvailableSlots,
+      totalScreens: screenIds.length,
+      totalReach: totalReach, // Include total reach
+      uniqueLocationsCount: uniqueLocationsCount, // Include unique locations count
+    }),
+  })
+    .then(response => {
+      console.log("Raw response:", response);
+      return response.json();
+    })
+    .then(data => {
+      console.log("Server response data:", data);
+      if (data.status === 'success') {
+        Swal.fire({
+          title: 'Success!',
+          text: 'Screens saved successfully!',
+          icon: 'success',
+          confirmButtonText: 'OK',
+        }).then(() => {
+          const proposalID = data.proposalID.trim();
+          const redirectURL = data.popRequired
+            ? `/proposals/popRequired?proposalID=${proposalID}`
+            : `/proposals/pricing?proposalID=${proposalID}`;
+          console.log("Redirecting to:", redirectURL);
+          window.location.href = redirectURL;
+        });
+      } else {
+        // Handle error response
+        console.error("Error data from server:", data);
+        const invalidSelections = data.invalidSelections
+          ? data.invalidSelections
+              .map(selection => `Screen ID ${selection.screenid}, Slot ${selection.slot.replace('slot', '')}`)
+              .join('\n')
+          : "No specific invalid selections provided.";
+        Swal.fire({
+          title: 'Error!',
+          text: `The following selections are not available:\n${invalidSelections}`,
+          icon: 'error',
+          confirmButtonText: 'OK',
+        });
+      }
+    })
+    .catch(error => {
+      console.error("Fetch error:", error);
+      Swal.fire({
+        title: 'Error!',
+        text: 'Failed to save data. Please try again.',
+        icon: 'error',
+        confirmButtonText: 'OK',
+      });
+    });
+});
+
+
+    function goBack() {
+      window.history.back();
+    }
+
+    // Search function for filtering screens based on user input
+    document.getElementById('searchInput').addEventListener('input', function () {
+      const searchTerm = this.value.toLowerCase();
+      const tableRows = document.querySelectorAll('#screensTableBody .screen-row');
+      let hasResults = false;
+
+      tableRows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        const rowContainsTerm = Array.from(cells).some(cell => 
+          cell.textContent.toLowerCase().includes(searchTerm)
+        );
+
+        row.style.display = rowContainsTerm ? '' : 'none';
+        if (rowContainsTerm) hasResults = true;
+      });
+
+      document.getElementById('noResultsMessage').style.display = hasResults ? 'none' : '';
+    });
+  </script>
+</body>
+</html>
