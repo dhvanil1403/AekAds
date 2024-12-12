@@ -149,6 +149,7 @@ const getClientIP = (req) => {
 // Middleware for logging actions
 // Middleware for logging actions
 
+
 const logAction = async (req, action, message, user) => {
   try {
     const ip = getClientIP(req);
@@ -167,6 +168,7 @@ const logAction2 = async (req, action, message) => {
   const ip = getClientIP(req);
   await Log2.create({ action, message, ip });
 };
+
 
 // Express middleware
 app.use(express.urlencoded({ extended: true }));
@@ -414,15 +416,15 @@ app.post('/api/log-logout', async (req, res) => {
   res.sendStatus(200);
 });
 
+
 app.get('/logout', async (req, res) => {
   const user = req.session.user;
 
   if (user && user.name) {
     const userName = user.name.trim(); // Ensure no extra spaces
-    const userId = user.id || req.session.customer_id || 'Unknown ID';
 
     // Log the logout action with proper user details
-    const logMessage = `${userName} is logged out, userId: ${userId}`;
+    const logMessage = `${userName} is logged out,`;
     await logAction(req, 'logout', logMessage);
     console.log(logMessage);
   } else {
@@ -433,6 +435,8 @@ app.get('/logout', async (req, res) => {
   req.session.destroy();
   res.redirect('/');
 });
+
+
 
 app.get("/logs", checkRole(['admin']),dashboardRoutes.isAuthenticated, async (req, res) => {
   try {
