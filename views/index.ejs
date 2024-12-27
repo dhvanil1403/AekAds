@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <script>
+        // Flag to track internal navigation
+        let isNavigatingInternal = false;
+      
+        // Reset the flag for internal navigation on link click
+        document.querySelectorAll("a").forEach((link) => {
+            link.addEventListener("click", (event) => {
+                const destination = event.target.closest("a").href;
+      
+                // Check if the link is for internal navigation
+                if (destination.includes("/Dashboard")) {
+                    isNavigatingInternal = true; // Set flag to avoid the alert
+                }
+            });
+        });
+      
+        // // Listen for beforeunload event
+        // window.addEventListener("beforeunload", (event) => {
+        //     if (!isNavigatingInternal) {
+        //         // Trigger the alert for closing or refreshing the tab
+        //         const confirmationMessage = "Are you sure you want to leave? This will log you out.";
+        //         event.preventDefault(); // For modern browsers
+        //         event.returnValue = confirmationMessage; // Compatibility with older browsers
+      
+        //         // Return the message (used for legacy browser support)
+        //         return confirmationMessage;
+        //     }
+        // });
+      
+        // Detect when the window is being unloaded
+        window.addEventListener("unload", async () => {
+            if (!isNavigatingInternal) {
+                // Make a logout request if the tab is closed
+                await fetch('/logout', {
+                    method: 'GET',
+                    credentials: 'include', // Send cookies along with the request
+                });
+            }
+        });
+      
+        // Reset flag after page has finished navigating
+        window.addEventListener("pageshow", () => {
+            isNavigatingInternal = false;
+        });
+      </script>
+</head>
+<body>
+    <h1>Welcome <%= user ? user.email : 'Guest' %></h1>
+    <% if (user) { %>
+        <a href="/logout">Logout</a>
+    <% } else { %>
+        <a href="/login">Login</a> |
+        <a href="/register">Register</a>
+    <% } %>
+</body>
+</html>

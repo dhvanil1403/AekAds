@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Playlist</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dqfnwh89v/image/upload/v1724408615/qxvvfcf7ftgklhl2k03v.png">
+    <link rel="stylesheet" href="/css/newPlaylist.css">
+  <link rel="stylesheet" href="/css/font.css" />
+    <style>
+        .main {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .main input[type="text"] {
+            width: calc(50% - 5px);
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .main label {
+            width: 100%;
+            font-size: 14px;
+        }
+        /* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7fc;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Form styling */
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #444;
+}
+
+
+
+/* Checkboxes and input group styling */
+.form-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+                                                                                                        
+
+/* Responsive design */                                                             
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+}
+
+
+.form-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+input[type="text"], input[type="number"], input[type="checkbox"] {
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}                                                                                          
+    </style>
+</head>
+
+<body>
+    <div class="newPlaylist">
+        <div class="header">
+            <button2 onclick="exitfunction()">Exit</button2>
+            <!-- <button id="selectScreenButton">Select Screen</button> -->
+            <!-- <button id="selectScreenButton" type="button">Select Screen</button> -->
+             
+<!-- Button to Trigger Form Submission -->
+            <button id="selectScreenButton" type="button">Select Screen</button>
+
+                                                         
+
+           
+        </div>
+        <div class="main">
+            
+            <div class="form-container">
+                <div id="liveForm">
+                    <div>
+                        <label for="clock">Clock:</label>
+                        <input type="checkbox" id="clock" name="clock">
+                    </div>
+                    <br>
+            
+                    <div>
+                        <label for="weather">Weather:</label>
+                        <input type="checkbox" id="weather" name="weather">
+                    </div>
+                    <br>
+<!--             
+                    <div id="clock_runtime_group" style="display: none;">
+                        <label for="clockRuntime">Clock Runtime (seconds):</label>
+                        <input type="number" id="clockRuntime" name="clockRuntime">
+                    </div> -->
+                    <br>
+            
+                    <div>
+                        <label for="youtube_live">YouTube Live:</label>
+                        <input type="checkbox" id="youtube_live" name="youtube_live">
+                    </div>
+                    <br>
+            
+                    <div>
+                        <label for="exoplayer">ExoPlayer:</label>
+                        <input type="checkbox" class="exoplayerR" id="exoplayer" name="exoplayer">
+                    </div>
+                    <br>
+            
+                    <div id="exoplayer_link_group" style="display: none;">
+                        <label for="exoplayer_link">ExoPlayer Link:</label>
+                        <input type="text" id="exoplayer_link" name="exoplayer_link" placeholder="Enter ExoPlayer Link">
+                    </div>
+                    <br>
+            
+                    <div id="youtube_live_link_group" style="display: none;">
+                        <label for="youtube_live_link">YouTube Live Link:</label>
+                        <input type="text" id="youtube_live_link" name="youtube_live_link" placeholder="Enter YouTube Live Link">
+                    </div>
+                    <br>
+            
+                 
+                </div>                                                              
+            </div>
+  
+        </div>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+    </div>                                                                                 
+    <script>  
+    
+    
+
+
+       function exitfunction() {
+            if (confirm("Are you sure you want to exit and discard changes?")) {
+                window.history.back();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+    // Select all relevant elements
+    const clockCheckbox = document.getElementById('clock');
+    const clockRuntimeGroup = document.getElementById('clock_runtime_group');
+    const clockRuntimeInput = document.getElementById('clockRuntime');
+    const weatherCheckbox = document.getElementById('weather');
+    const youtubeLiveCheckbox = document.getElementById('youtube_live');
+    const youtubeLiveLinkGroup = document.getElementById('youtube_live_link_group');
+    const youtubeLiveLink = document.getElementById('youtube_live_link');
+    const exoplayerCheckbox = document.getElementById('exoplayer');
+    const exoplayerLinkGroup = document.getElementById('exoplayer_link_group');
+    const exoplayerLink = document.getElementById('exoplayer_link');
+    const selectScreenButton = document.getElementById('selectScreenButton');
+
+    // Function to reset all fields and hide their values
+    function resetFields() {
+        youtubeLiveLinkGroup.style.display = 'none';
+        youtubeLiveLink.value = ''; // Clear value
+        exoplayerLinkGroup.style.display = 'none';
+        exoplayerLink.value = ''; // Clear value
+    }
+
+    // Function to reset all checkboxes
+    function resetCheckboxes(exceptCheckbox) {
+        const checkboxes = [clockCheckbox, weatherCheckbox, youtubeLiveCheckbox, exoplayerCheckbox];
+        checkboxes.forEach(function (checkbox) {
+            if (checkbox !== exceptCheckbox) {
+                checkbox.checked = false;
+            }
+        });
+    }
+
+    // Show/Hide Clock Runtime input based on Clock checkbox
+    clockCheckbox.addEventListener('change', function () {
+        resetCheckboxes(clockCheckbox); // Reset other checkboxes when Clock is checked
+        clockRuntimeGroup.style.display = clockCheckbox.checked ? 'block' : 'none';
+        if (!clockCheckbox.checked) {
+            clockRuntimeInput.value = ''; // Clear runtime if Clock is unchecked
+        }
+    });
+
+    // Ensure only one of YouTube Live or ExoPlayer can be selected
+    youtubeLiveCheckbox.addEventListener('change', function () {
+        resetCheckboxes(youtubeLiveCheckbox); // Reset other checkboxes when YouTube Live is checked
+        if (youtubeLiveCheckbox.checked) {
+            exoplayerLink.value = ''; // Clear ExoPlayer link
+            exoplayerLinkGroup.style.display = 'none'; // Hide ExoPlayer link
+        }
+        youtubeLiveLinkGroup.style.display = youtubeLiveCheckbox.checked ? 'block' : 'none'; // Show/Hide YouTube Live link
+        if (!youtubeLiveCheckbox.checked) {
+            youtubeLiveLink.value = ''; // Clear YouTube Live Link value if unchecked
+        }
+    });
+
+    exoplayerCheckbox.addEventListener('change', function () {
+        resetCheckboxes(exoplayerCheckbox); // Reset other checkboxes when ExoPlayer is checked
+        if (exoplayerCheckbox.checked) {
+            youtubeLiveLink.value = ''; // Clear YouTube Live link
+            youtubeLiveLinkGroup.style.display = 'none'; // Hide YouTube Live link
+        }
+        exoplayerLinkGroup.style.display = exoplayerCheckbox.checked ? 'block' : 'none'; // Show/Hide ExoPlayer link
+        if (!exoplayerCheckbox.checked) {
+            exoplayerLink.value = ''; // Clear ExoPlayer link if unchecked
+        }
+    });
+
+    weatherCheckbox.addEventListener('change', function () {
+        resetCheckboxes(weatherCheckbox); // Reset other checkboxes when Weather is checked
+    });
+
+    // Submit Button Logic
+    selectScreenButton.addEventListener('click', function () {
+        // Collect form data
+        const formData = {
+            clock: clockCheckbox.checked,
+            clockRuntime: clockCheckbox.checked
+                ? parseInt(clockRuntimeInput.value.trim()) || null
+                : null,
+            weather: weatherCheckbox.checked,
+            youtube_live: youtubeLiveCheckbox.checked,
+            youtube_live_link: youtubeLiveCheckbox.checked
+                ? youtubeLiveLink.value.trim()
+                : null,
+            exoplayer: exoplayerCheckbox.checked,
+            exoplayer_link: exoplayerCheckbox.checked
+                ? exoplayerLink.value.trim()
+                : null,
+        };                                                                          
+
+        // Check if any checkbox is selected (clock, weather, youtube_live, or exoplayer)
+        const isAnySelected = formData.clock || formData.weather || formData.youtube_live || formData.exoplayer;
+
+        // Prevent navigation if no checkbox is selected
+        if (!isAnySelected) {
+            alert('Please select at least one option.');
+            return;
+        }
+
+        // Validate YouTube Live link
+        if (formData.youtube_live && !formData.youtube_live_link) {
+            alert('Please provide a valid YouTube Live link.');
+            return;
+        }
+
+        // Validate ExoPlayer link
+        if (formData.exoplayer && !formData.exoplayer_link) {
+            alert('Please provide a valid ExoPlayer link.');
+            return;
+        }
+
+        // Debug: Log form data
+        console.log('Form Data:', formData);
+
+        // Store data in session storage
+        sessionStorage.setItem('formData', JSON.stringify(formData));
+
+        // Redirect to the next page
+        window.location.href = '/Dashboard/LiveContent/liveLink/selectlivescreens';
+    });
+});
+
+
+
+    </script>
+    
+</body>
+
+</html>
